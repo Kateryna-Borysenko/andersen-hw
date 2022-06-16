@@ -37,3 +37,20 @@ const selectFromInterval = (arr, firstInt, secondInt) => {
 }
 
 //Task 3
+myIterable[Symbol.iterator] = function* () {
+  if (this.from > this.to) {
+    throw new Error('First argument < second one.');
+  }
+
+  if (typeof this.from !== 'number' || typeof this.to !== 'number') {
+    throw new Error('Arguments must be numbers.');
+  }
+
+  if (this.from === undefined || this.to === undefined) {
+    throw new Error('Arguments must be defined.');
+  }
+
+  for (let i = this.from; i <= this.to; i++) {
+    yield i;
+  }
+};
