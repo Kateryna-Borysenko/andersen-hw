@@ -1,36 +1,56 @@
-const isNum = (value) => !isNaN(value) && value !== '';
-const errorMessage = 'Некорректный ввод!';
-
 //Task 1
-const showResult = () => {
-  let firstNum = prompt('Введите первое значение:');
-  let secondNum = prompt('Введите второе значение:');
-
-  firstNum = parseInt(firstNum);
-  secondNum = parseInt(secondNum);
-
-  if (isNum(firstNum) && isNum(secondNum) && secondNum > 0) {
-    console.log(firstNum.toString(secondNum));
+const makeObjectDeepCopy = (obj) => {
+  if (typeof obj === 'object') {
+    const cloneObj = {};
+    const objKeys = Object.keys(obj);
+    objKeys.forEach((key) => {
+      cloneObj[key] = makeObjectDeepCopy(obj[key]);
+    })
+    return cloneObj;
   } else {
-    console.log(errorMessage);
+    return obj;
   }
 }
-
 
 //Task 2
-const calculateSumAndDivision = () => {
-  const firstNum = prompt('Введите первое число:');
-  if (!isNum(firstNum)) {
-    return console.log(errorMessage);
+const selectFromInterval = (arr, firstInt, secondInt) => {
+  if (!Array.isArray(arr)) {
+    throw new Error('First argument must be an array.');
   }
 
-  const secondNum = prompt('Введите второе число:');
-  if (!isNum(secondNum)) {
-    return console.log(errorMessage);
-  }
+  const max = Math.max(firstInt, secondInt);
+  const min = Math.min(firstInt, secondInt);
+  const result = [];
 
-  console.log(`Ответ: ${Number(firstNum) + Number(secondNum)}, ${Math.round(firstNum / secondNum)}.`);
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] !== 'number') {
+      throw new Error('Not a valid number.');
+    }
+    if (
+      arr[i] >= min &&
+      arr[i] <= max
+    ) {
+      result.push(arr[i]);
+    }
+  }
+  return result;
 }
 
-showResult();
-calculateSumAndDivision();
+//Task 3
+myIterable[Symbol.iterator] = function* () {
+  if (this.from > this.to) {
+    throw new Error('First argument < second one.');
+  }
+
+  if (typeof this.from !== 'number' || typeof this.to !== 'number') {
+    throw new Error('Arguments must be numbers.');
+  }
+
+  if (this.from === undefined || this.to === undefined) {
+    throw new Error('Arguments must be defined.');
+  }
+
+  for (let i = this.from; i <= this.to; i++) {
+    yield i;
+  }
+};
