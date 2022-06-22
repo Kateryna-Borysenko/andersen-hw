@@ -1,36 +1,25 @@
-const isNum = (value) => !isNaN(value) && value !== '';
-const errorMessage = 'Некорректный ввод!';
-
 //Task 1
-const showResult = () => {
-  let firstNum = prompt('Введите первое значение:');
-  let secondNum = prompt('Введите второе значение:');
+Array.prototype.myFilter = function (callback, context) {
+  array = [];
 
-  firstNum = parseInt(firstNum);
-  secondNum = parseInt(secondNum);
-
-  if (isNum(firstNum) && isNum(secondNum) && secondNum > 0) {
-    console.log(firstNum.toString(secondNum));
-  } else {
-    console.log(errorMessage);
+  for (let i = 0; i < this.length; i++) {
+    if (callback.call(context, this[i], i, this)) {
+      array.push(this[i]);
+    }
   }
+  return array;
 }
 
 
 //Task 2
-const calculateSumAndDivision = () => {
-  const firstNum = prompt('Введите первое число:');
-  if (!isNum(firstNum)) {
-    return console.log(errorMessage);
-  }
+function createDebounceFunction(callback, delay) {
+  let timeout;
 
-  const secondNum = prompt('Введите второе число:');
-  if (!isNum(secondNum)) {
-    return console.log(errorMessage);
-  }
+  return function () {
+    const context = this;
+    const args = arguments;
 
-  console.log(`Ответ: ${Number(firstNum) + Number(secondNum)}, ${Math.round(firstNum / secondNum)}.`);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), delay);
+  }
 }
-
-showResult();
-calculateSumAndDivision();
