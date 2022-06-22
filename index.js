@@ -12,3 +12,14 @@ Array.prototype.myFilter = function (callback, context) {
 
 
 //Task 2
+function createDebounceFunction(callback, delay) {
+  let timeout;
+
+  return function () {
+    const context = this;
+    const args = arguments;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), delay);
+  }
+}
