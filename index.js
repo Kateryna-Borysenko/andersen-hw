@@ -1,36 +1,80 @@
-const isNum = (value) => !isNaN(value) && value !== '';
-const errorMessage = 'Некорректный ввод!';
-
 //Task 1
-const showResult = () => {
-  let firstNum = prompt('Введите первое значение:');
-  let secondNum = prompt('Введите второе значение:');
+const concatStrings = (firstString = '', separator = '') => {
+  return (secondString) => {
+    if (typeof separator !== 'string') {
+      separator = '';
+    }
 
-  firstNum = parseInt(firstNum);
-  secondNum = parseInt(secondNum);
+    if (typeof secondString !== 'string') {
+      return `${firstString}`;
+    }
 
-  if (isNum(firstNum) && isNum(secondNum) && secondNum > 0) {
-    console.log(firstNum.toString(secondNum));
-  } else {
-    console.log(errorMessage);
+    return concatStrings(`${firstString}${separator}${secondString}`, separator);
   }
 }
 
+concatStrings('first')('second')('third')();
+concatStrings('first', null)('second')();
+concatStrings('first', '123')('second')('third')();
+concatStrings('some-value')('')('')(null);
+concatStrings('some-value')(2);
+concatStrings('some-value')('333')(123n);
 
 //Task 2
-const calculateSumAndDivision = () => {
-  const firstNum = prompt('Введите первое число:');
-  if (!isNum(firstNum)) {
-    return console.log(errorMessage);
+class Calculator {
+  constructor(firstNumber, secondNumber) {
+
+    if (arguments.length > 2) {
+      throw new Error('Must be two valid numbers');
+    }
+
+    this.setX(firstNumber);
+    this.setY(secondNumber);
   }
 
-  const secondNum = prompt('Введите второе число:');
-  if (!isNum(secondNum)) {
-    return console.log(errorMessage);
+  isInvalidNumber(number) {
+    if (isNaN(number)) {
+      return true;
+    }
   }
 
-  console.log(`Ответ: ${Number(firstNum) + Number(secondNum)}, ${Math.round(firstNum / secondNum)}.`);
+  setX(number) {
+    if (this.isInvalidNumber(number)) {
+      throw new Error('The first number is not valid');
+    }
+
+    this.firstNumber = number;
+  }
+
+  setY(number) {
+    if (this.isInvalidNumber(number)) {
+      throw new Error('The second number is not valid');
+    }
+
+    this.secondNumber = number;
+  }
+
+  logSum = () => {
+    console.log(this.firstNumber + this.secondNumber);
+  }
+
+  logMul = () => {
+    console.log(this.firstNumber * this.secondNumber);
+  }
+
+  logSub = () => {
+    console.log(this.firstNumber - this.secondNumber);
+  }
+
+  logDiv = () => {
+    if (this.secondNumber === 0) {
+      throw new Error('Division by zero');
+    }
+
+    console.log(this.firstNumber / this.secondNumber);
+  }
 }
 
-showResult();
-calculateSumAndDivision();
+const calculator = new Calculator(12, 3);
+calculator.logSum();
+calculator.logDiv(); 
