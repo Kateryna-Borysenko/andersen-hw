@@ -4,8 +4,8 @@ class Car {
   #yearOfManufacturing;
   #maxSpeed;
   #maxFuelVolume;
-  #fuelConsumption; //потребление топлива
-  #currentFuelVolume = 100;
+  #fuelConsumption;
+  #currentFuelVolume = 0;
   #isStarted = false;
   #mileage = 0;
 
@@ -169,23 +169,5 @@ class Car {
 
 
 const car = new Car('BMW', '330i', 2019, 300, 20, 7.2);
-car.start();
-console.log('🍒', car.isStarted)
-console.log(car.drive(100, 1));
-
-car.shutDownEngine()
-console.log('🍒', car.isStarted)
-
-console.log('🍒', car.brand)
-console.log('🍒', car.model)
-car.model = 'new brand'
-console.log('🍒', car.model)
-console.log('🍒', car.yearOfManufacturing)
-console.log('🍒', car.maxSpeed)
-console.log('🍒', car.maxFuelVolume)
-console.log('🍒', car.fuelConsumption)
-console.log('🍒', car.currentFuelVolume)
-console.log('🍒', car.mileage)
-
 
 module.exports = { Car };
