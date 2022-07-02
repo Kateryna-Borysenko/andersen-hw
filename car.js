@@ -1,3 +1,19 @@
+const ERROR = {
+  start: 'Машина уже заведена',
+  shutDownEngine: 'Машина ещё не заведена',
+  invalidFuelVolume: 'Неверное количество топлива для заправки',
+  fullTank: 'Топливный бак переполнен',
+  invalidSpeed: 'Неверная скорость',
+  invalidDriveHours: 'Неверное количество часов',
+  maxSpeed: 'Машина не может ехать так быстро',
+  isStarted: 'Машина должна быть заведена, чтобы ехать',
+  notEnoughFuel: 'Недостаточно топлива',
+  invalidString: 'это строка от 1 до 50 символов включительно',
+  maxSpeed: 'maxSpeed - число от 100 до 300 км/ч',
+  maxFuelVolume: 'maxFuelVolume - число в литрах от 5 до 20',
+  fuelConsumption: 'fuelConsumption - это число'
+}
+
 class Car {
   #brand;
   #model;
@@ -27,7 +43,7 @@ class Car {
 
   start() {
     if (this.#isStarted) {
-      throw new Error('Машина уже заведена');
+      throw new Error(ERROR.start);
     }
 
     this.#isStarted = true;
@@ -35,7 +51,7 @@ class Car {
 
   shutDownEngine() {
     if (!this.#isStarted) {
-      throw new Error('Машина ещё не заведена');
+      throw new Error(ERROR.shutDownEngine);
     }
 
     this.#isStarted = false;
@@ -43,11 +59,11 @@ class Car {
 
   fillUpGasTank(fuelVolume) {
     if (typeof fuelVolume !== 'number' || fuelVolume <= 0) {
-      throw new Error('Неверное количество топлива для заправки');
+      throw new Error(ERROR.invalidFuelVolume);
     }
 
     if (this.#currentFuelVolume + fuelVolume > this.#maxFuelVolume) {
-      throw new Error('Топливный бак переполнен');
+      throw new Error(ERROR.fullTank);
     }
 
     this.#currentFuelVolume += fuelVolume;
@@ -55,25 +71,25 @@ class Car {
 
   drive(speed, driveHours) {
     if (typeof speed !== 'number' || speed <= 0) {
-      throw new Error('Неверная скорость');
+      throw new Error(ERROR.invalidSpeed);
     }
 
     if (typeof driveHours !== 'number' || driveHours <= 0) {
-      throw new Error('Неверное количество часов');
+      throw new Error(ERROR.invalidDriveHours);
     }
 
     if (speed > this.#maxSpeed) {
-      throw new Error('Машина не может ехать так быстро');
+      throw new Error(ERROR.maxSpeed);
     }
 
     if (!this.#isStarted) {
-      throw new Error('Машина должна быть заведена, чтобы ехать');
+      throw new Error(ERROR.isStarted);
     }
 
     const fuelConsumption = this.#fuelConsumption * ((speed * driveHours) / 100);
 
     if (this.#currentFuelVolume - fuelConsumption < 0) {
-      throw new Error('Недостаточно топлива');
+      throw new Error(ERROR.notEnoughFuel);
     }
 
     this.#currentFuelVolume -= fuelConsumption;
@@ -86,7 +102,7 @@ class Car {
 
   set brand(brand) {
     if ((typeof brand !== 'string') || (brand.length < 1 || brand.length > 50)) {
-      throw new Error('brand - это строка от 1 до 50 символов включительно');
+      throw new Error('brand - ' + ERROR.invalidString);
     }
 
     this.#brand = brand;
@@ -98,7 +114,7 @@ class Car {
 
   set model(model) {
     if ((typeof model !== 'string') || (model.length < 1 || model.length > 50)) {
-      throw new Error('model - это строка от 1 до 50 символов включительно');
+      throw new Error('model - ' + ERROR.invalidString);
     }
 
     this.#model = model;
@@ -112,7 +128,7 @@ class Car {
     const currentYear = new Date().getFullYear();
 
     if ((typeof yearOfManufacturing !== 'number') || (yearOfManufacturing < 1900 || yearOfManufacturing > currentYear)) {
-      throw new Error('yearOfManufacturing - число от 1900 до текущего года включительно');
+      throw new Error('yearOfManufacturing - ' + ERROR.invalidString);
     }
 
     this.#yearOfManufacturing = yearOfManufacturing;
@@ -124,7 +140,7 @@ class Car {
 
   set maxSpeed(maxSpeed) {
     if ((typeof maxSpeed !== 'number') || (maxSpeed < 100 || maxSpeed > 300)) {
-      throw new Error('maxSpeed - число от 100 до 300 км/ч');
+      throw new Error(ERROR.maxSpeed);
     }
 
     this.#maxSpeed = maxSpeed;
@@ -136,7 +152,7 @@ class Car {
 
   set maxFuelVolume(maxFuelVolume) {
     if ((typeof maxFuelVolume !== 'number') || (maxFuelVolume < 5 || maxFuelVolume > 20)) {
-      throw new Error('maxFuelVolume - число в литрах от 5 до 20');
+      throw new Error(ERROR.maxFuelVolume);
     }
 
     this.#maxFuelVolume = maxFuelVolume;
@@ -148,7 +164,7 @@ class Car {
 
   set fuelConsumption(fuelConsumption) {
     if (typeof fuelConsumption !== 'number') {
-      throw new Error('fuelConsumption - это число');
+      throw new Error(ERROR.fuelConsumption);
     }
 
     this.#fuelConsumption = fuelConsumption;
@@ -166,8 +182,5 @@ class Car {
     return `${this.#mileage} km`;
   }
 }
-
-
-const car = new Car('BMW', '330i', 2019, 300, 20, 7.2);
 
 module.exports = { Car };
