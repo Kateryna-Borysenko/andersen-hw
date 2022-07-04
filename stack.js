@@ -65,22 +65,4 @@ class Stack {
   }
 }
 
-const stack = new Stack(3);
-
-stack.push('elem1');
-stack.push('elem2');
-stack.push('elem3');
-// stack.push('elem4');
-
-// console.log(stack.pop());
-// console.log(stack.pop());
-// console.log(stack.pop());
-// console.log(stack.pop());
-
-console.log('🍒 stack', stack);
-
-console.log('🍒 isEmpty', stack.isEmpty());
-console.log('🍒 arr', stack.toArray());
-
-
 module.exports = { Stack };
